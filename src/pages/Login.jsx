@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, clearError } from '../store/slices/authSlice';
 import { LockClosedIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
@@ -14,7 +14,11 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { loading, error, isAuthenticated } = useSelector((state) => state.auth);
+
+  // Show success message if redirected from reset password
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -24,7 +28,11 @@ const Login = () => {
 
   useEffect(() => {
     dispatch(clearError());
-  }, [dispatch]);
+    // Check for success message from reset password
+    if (location.state?.message) {
+      setSuccessMessage(location.state.message);
+    }
+  }, [dispatch, location]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,6 +84,13 @@ const Login = () => {
             <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
             <p className="mt-2 text-gray-600">Sign in to your admin account</p>
           </div>
+
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+              <p className="text-sm text-green-800">{successMessage}</p>
+            </div>
+          )}
 
           {/* Error Message */}
           {displayError && (
@@ -162,9 +177,12 @@ const Login = () => {
                 </label>
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+                <Link
+                  to="/forgot-password"
+                  className="font-medium text-primary-600 hover:text-primary-500"
+                >
                   Forgot password?
-                </a>
+                </Link>
               </div>
             </div>
 

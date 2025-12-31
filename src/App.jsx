@@ -4,6 +4,11 @@ import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import ProductsList from './pages/ProductsList';
+import ProductDetail from './pages/ProductDetail';
+import EditProduct from './pages/EditProduct';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -14,6 +19,14 @@ function App() {
         <Route
           path="/login"
           element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+        />
+        <Route
+          path="/forgot-password"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <ForgotPassword />}
+        />
+        <Route
+          path="/reset-password"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <ResetPassword />}
         />
         <Route
           path="/"
@@ -43,10 +56,27 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="card">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Products</h1>
-                  <p className="text-gray-600">Products management page - Coming soon</p>
-                </div>
+                <ProductsList />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ProductDetail />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/:id/edit"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <EditProduct />
               </Layout>
             </ProtectedRoute>
           }

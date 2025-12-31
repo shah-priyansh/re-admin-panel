@@ -34,7 +34,12 @@ const Layout = ({ children }) => {
     { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
   ];
 
-  const isActive = (path) => location.pathname === path;
+  const isActive = (path) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
