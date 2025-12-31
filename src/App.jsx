@@ -1,0 +1,86 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+
+function App() {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <Login />}
+        />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Dashboard />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <div className="card">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Users</h1>
+                  <p className="text-gray-600">Users management page - Coming soon</p>
+                </div>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <div className="card">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Products</h1>
+                  <p className="text-gray-600">Products management page - Coming soon</p>
+                </div>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <div className="card">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Analytics</h1>
+                  <p className="text-gray-600">Analytics page - Coming soon</p>
+                </div>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <div className="card">
+                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Settings</h1>
+                  <p className="text-gray-600">Settings page - Coming soon</p>
+                </div>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;
