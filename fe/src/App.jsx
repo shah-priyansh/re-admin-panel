@@ -12,6 +12,10 @@ import EditProduct from './pages/EditProduct';
 import UsersList from './pages/UsersList';
 import UserDetail from './pages/UserDetail';
 import EditUser from './pages/EditUser';
+import OrdersList from './pages/OrdersList';
+import OrderDetail from './pages/OrderDetail';
+import ReturnRequestsList from './pages/ReturnRequestsList';
+import ReturnRequestDetail from './pages/ReturnRequestDetail';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -110,6 +114,46 @@ function App() {
                   <h1 className="text-2xl font-bold text-gray-900 mb-4">Analytics</h1>
                   <p className="text-gray-600">Analytics page - Coming soon</p>
                 </div>
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <OrdersList />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders/:id"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <OrderDetail />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/return-requests"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ReturnRequestsList />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/return-requests/:id"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ReturnRequestDetail />
               </Layout>
             </ProtectedRoute>
           }

@@ -11,6 +11,8 @@ import {
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,
+  ShoppingCartIcon,
+  ArrowPathIcon,
 } from '@heroicons/react/24/outline';
 
 const Layout = ({ children }) => {
@@ -30,6 +32,8 @@ const Layout = ({ children }) => {
     { name: 'Dashboard', href: '/', icon: HomeIcon },
     { name: 'Users', href: '/users', icon: UsersIcon },
     { name: 'Products', href: '/products', icon: ShoppingBagIcon },
+    { name: 'Orders', href: '/orders', icon: ShoppingCartIcon },
+    { name: 'Return Requests', href: '/return-requests', icon: ArrowPathIcon },
     { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
     { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
   ];
