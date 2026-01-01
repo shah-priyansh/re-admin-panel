@@ -9,6 +9,9 @@ import ResetPassword from './pages/ResetPassword';
 import ProductsList from './pages/ProductsList';
 import ProductDetail from './pages/ProductDetail';
 import EditProduct from './pages/EditProduct';
+import UsersList from './pages/UsersList';
+import UserDetail from './pages/UserDetail';
+import EditUser from './pages/EditUser';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -43,10 +46,27 @@ function App() {
           element={
             <ProtectedRoute>
               <Layout>
-                <div className="card">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-4">Users</h1>
-                  <p className="text-gray-600">Users management page - Coming soon</p>
-                </div>
+                <UsersList />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:id"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <UserDetail />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:id/edit"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <EditUser />
               </Layout>
             </ProtectedRoute>
           }
