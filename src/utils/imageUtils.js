@@ -27,3 +27,5 @@ export const getImageUrl = (imagePath) => {
   return `${cleanBaseUrl}/${cleanImagePath}`;
 };
 
+
+

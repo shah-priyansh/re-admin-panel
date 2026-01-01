@@ -56,9 +56,6 @@ const Login = () => {
           email: formData.email,
           password: formData.password,
           type: 'super',
-          deviceType: 'web',
-          deviceToken: 'web-token',
-          deviceId: 'web-device-id',
         })
       );
 
