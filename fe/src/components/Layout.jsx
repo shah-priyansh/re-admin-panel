@@ -13,6 +13,8 @@ import {
   XMarkIcon,
   ShoppingCartIcon,
   ArrowPathIcon,
+  EnvelopeIcon,
+  CreditCardIcon,
 } from '@heroicons/react/24/outline';
 
 const Layout = ({ children }) => {
@@ -34,6 +36,8 @@ const Layout = ({ children }) => {
     { name: 'Products', href: '/products', icon: ShoppingBagIcon },
     { name: 'Orders', href: '/orders', icon: ShoppingCartIcon },
     { name: 'Return Requests', href: '/return-requests', icon: ArrowPathIcon },
+    { name: 'Contact Enquiries', href: '/contact-enquiries', icon: EnvelopeIcon },
+    { name: 'Trustap Transactions', href: '/trustap-transactions', icon: CreditCardIcon },
     { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
     { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
   ];

@@ -16,6 +16,9 @@ import OrdersList from './pages/OrdersList';
 import OrderDetail from './pages/OrderDetail';
 import ReturnRequestsList from './pages/ReturnRequestsList';
 import ReturnRequestDetail from './pages/ReturnRequestDetail';
+import ContactEnquiriesList from './pages/ContactEnquiriesList';
+import ContactEnquiryDetail from './pages/ContactEnquiryDetail';
+import TrustapTransactionsList from './pages/TrustapTransactionsList';
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.auth);
@@ -154,6 +157,36 @@ function App() {
             <ProtectedRoute>
               <Layout>
                 <ReturnRequestDetail />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/contact-enquiries"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ContactEnquiriesList />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/contact-enquiries/:id"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <ContactEnquiryDetail />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/trustap-transactions"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <TrustapTransactionsList />
               </Layout>
             </ProtectedRoute>
           }
