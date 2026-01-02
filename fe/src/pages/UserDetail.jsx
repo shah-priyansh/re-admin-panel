@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeftIcon, PencilIcon, StarIcon } from '@heroicons/react/24/outline';
+import { ArrowLeftIcon, PencilIcon, StarIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { 
   getUserById, 
@@ -618,14 +618,40 @@ const UserDetail = () => {
         {activeTab === 'products' && (
           <div>
             <div className="p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Products</h2>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Products</h2>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => navigate(`/users/${id}/bulk-upload`)}
+                    className="btn-secondary flex items-center gap-2"
+                  >
+                    <PhotoIcon className="h-5 w-5" />
+                    Bulk Upload
+                  </button>
+                  <button
+                    onClick={() => navigate(`/users/${id}/add-product`)}
+                    className="btn-primary flex items-center gap-2"
+                  >
+                    <PencilIcon className="h-5 w-5" />
+                    Add Product
+                  </button>
+                </div>
+              </div>
               {products.length === 0 ? (
-                <p className="text-gray-500">No products found</p>
+                <div className="text-center py-8">
+                  <p className="text-gray-500 mb-4">No products found</p>
+                  <button
+                    onClick={() => navigate(`/users/${id}/add-product`)}
+                    className="btn-primary"
+                  >
+                    Add First Product
+                  </button>
+                </div>
               ) : (
                 <div className="space-y-4">
                   {products.map((product) => (
                     <div key={product.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                      <div className="flex gap-4">
+                      <div className="flex gap-4 items-center">
                         {product.image && (
                           <img
                             src={getImageUrl(product.image)}
@@ -638,6 +664,13 @@ const UserDetail = () => {
                           <p className="text-primary-600 font-bold mt-1">{formatPrice(product.price)}</p>
                           <p className="text-sm text-gray-500 mt-1">ID: {product.id}</p>
                         </div>
+                        <button
+                          onClick={() => navigate(`/products/${product.id}/edit`)}
+                          className="btn-secondary flex items-center gap-2"
+                        >
+                          <PencilIcon className="h-4 w-4" />
+                          Edit
+                        </button>
                       </div>
                     </div>
                   ))}

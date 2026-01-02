@@ -12,6 +12,8 @@ import EditProduct from './pages/EditProduct';
 import UsersList from './pages/UsersList';
 import UserDetail from './pages/UserDetail';
 import EditUser from './pages/EditUser';
+import AddProduct from './pages/AddProduct';
+import BulkUploadProducts from './pages/BulkUploadProducts';
 import OrdersList from './pages/OrdersList';
 import OrderDetail from './pages/OrderDetail';
 import ReturnRequestsList from './pages/ReturnRequestsList';
@@ -74,6 +76,36 @@ function App() {
             <ProtectedRoute>
               <Layout>
                 <EditUser />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:userId/add-product"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <AddProduct />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/users/:userId/bulk-upload"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <BulkUploadProducts />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/products/bulk-upload"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <BulkUploadProducts />
               </Layout>
             </ProtectedRoute>
           }

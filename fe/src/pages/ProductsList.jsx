@@ -6,7 +6,8 @@ import {
   EyeIcon,
   FunnelIcon,
   Squares2X2Icon,
-  ListBulletIcon
+  ListBulletIcon,
+  PhotoIcon
 } from '@heroicons/react/24/outline';
 import { getProducts } from '../services/productService';
 import { getImageUrl } from '../utils/imageUtils';
@@ -90,30 +91,40 @@ const ProductsList = () => {
           </p>
         </div>
         
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+        <div className="flex items-center gap-2">
           <button
-            onClick={() => setViewMode('grid')}
-            className={`p-2 rounded transition-colors ${
-              viewMode === 'grid'
-                ? 'bg-white text-primary-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-            title="Grid View"
+            onClick={() => navigate('/products/bulk-upload')}
+            className="btn-secondary flex items-center gap-2"
           >
-            <Squares2X2Icon className="h-5 w-5" />
+            <PhotoIcon className="h-5 w-5" />
+            Bulk Upload
           </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`p-2 rounded transition-colors ${
-              viewMode === 'list'
-                ? 'bg-white text-primary-600 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900'
-            }`}
-            title="List View"
-          >
-            <ListBulletIcon className="h-5 w-5" />
-          </button>
+          
+          {/* View Mode Toggle */}
+          <div className="flex items-center gap-2 bg-gray-100 rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={`p-2 rounded transition-colors ${
+                viewMode === 'grid'
+                  ? 'bg-white text-primary-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+              title="Grid View"
+            >
+              <Squares2X2Icon className="h-5 w-5" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={`p-2 rounded transition-colors ${
+                viewMode === 'list'
+                  ? 'bg-white text-primary-600 shadow-sm'
+                  : 'text-gray-600 hover:text-gray-900'
+              }`}
+              title="List View"
+            >
+              <ListBulletIcon className="h-5 w-5" />
+            </button>
+          </div>
         </div>
       </div>
 
