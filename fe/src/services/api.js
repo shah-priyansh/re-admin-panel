@@ -12,7 +12,15 @@ api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('authToken');
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      // For /product/ routes, send both auth_token and Authorization header
+      // The backend middleware will try JWT first, then fallback to auth_token
+      if (config.url && config.url.includes('/product/')) {
+        config.headers.auth_token = token;
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        // For other routes (v2 API), use Authorization Bearer header
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },

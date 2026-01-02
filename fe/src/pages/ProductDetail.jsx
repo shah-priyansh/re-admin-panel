@@ -143,7 +143,7 @@ const ProductDetail = () => {
           {images.length > 1 && (
             <div className="grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-4 gap-3">
               {images.map((img, index) => {
-                const imgSrc = img.thumb || img.full;
+                const imgSrc =img.full;
                 const fullImgSrc = getImageUrl(imgSrc);
                 
                 return (
