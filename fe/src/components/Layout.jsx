@@ -38,7 +38,7 @@ const Layout = ({ children }) => {
     { name: 'Return Requests', href: '/return-requests', icon: ArrowPathIcon },
     { name: 'Contact Enquiries', href: '/contact-enquiries', icon: EnvelopeIcon },
     { name: 'Trustap Transactions', href: '/trustap-transactions', icon: CreditCardIcon },
-    { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
+    // { name: 'Analytics', href: '/analytics', icon: ChartBarIcon },
     { name: 'Settings', href: '/settings', icon: Cog6ToothIcon },
   ];
 

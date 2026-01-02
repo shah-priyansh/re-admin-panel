@@ -2,54 +2,77 @@ import { useState, useEffect } from 'react';
 import {
   UsersIcon,
   ShoppingBagIcon,
-  CurrencyDollarIcon,
   ChartBarIcon,
-  ArrowUpIcon,
-  ArrowDownIcon,
 } from '@heroicons/react/24/outline';
+import { getDashboardStats } from '../services/dashboardService';
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
-    totalUsers: 1248,
-    totalProducts: 342,
-    totalRevenue: 45678,
-    totalOrders: 892,
-    userGrowth: 12.5,
-    revenueGrowth: 8.3,
+    totalUsers: 0,
+    todayRegistrations: 0,
+    totalOrders: 0,
+    todayOrders: 0,
+    totalProducts: 0,
+    todayProducts: 0,
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        setLoading(true);
+        const response = await getDashboardStats();
+        if (response.data) {
+          setStats(response.data);
+        }
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+        setError('Failed to load dashboard statistics');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const statCards = [
     {
       name: 'Total Users',
       value: stats.totalUsers.toLocaleString(),
-      change: `+${stats.userGrowth}%`,
-      changeType: 'increase',
       icon: UsersIcon,
       color: 'bg-blue-500',
     },
     {
-      name: 'Total Products',
-      value: stats.totalProducts.toLocaleString(),
-      change: '+5.2%',
-      changeType: 'increase',
-      icon: ShoppingBagIcon,
-      color: 'bg-green-500',
-    },
-    {
-      name: 'Total Revenue',
-      value: `$${stats.totalRevenue.toLocaleString()}`,
-      change: `+${stats.revenueGrowth}%`,
-      changeType: 'increase',
-      icon: CurrencyDollarIcon,
-      color: 'bg-yellow-500',
+      name: "Today's Registration",
+      value: stats.todayRegistrations.toLocaleString(),
+      icon: UsersIcon,
+      color: 'bg-blue-400',
     },
     {
       name: 'Total Orders',
       value: stats.totalOrders.toLocaleString(),
-      change: '-2.1%',
-      changeType: 'decrease',
       icon: ChartBarIcon,
       color: 'bg-purple-500',
+    },
+    {
+      name: "Today's Orders",
+      value: stats.todayOrders.toLocaleString(),
+      icon: ChartBarIcon,
+      color: 'bg-purple-400',
+    },
+    {
+      name: 'Total Products',
+      value: stats.totalProducts.toLocaleString(),
+      icon: ShoppingBagIcon,
+      color: 'bg-green-500',
+    },
+    {
+      name: "Today's Products",
+      value: stats.todayProducts.toLocaleString(),
+      icon: ShoppingBagIcon,
+      color: 'bg-green-400',
     },
   ];
 
@@ -61,6 +84,46 @@ const Dashboard = () => {
     { id: 5, action: 'User verified', user: 'Sarah Wilson', time: '3 hours ago' },
   ];
 
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="mt-2 text-gray-600">Welcome back! Here's what's happening today.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[1, 2, 3, 4, 5, 6].map((i) => (
+            <div key={i} className="card animate-pulse">
+              <div className="h-24 bg-gray-200 rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-6">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="mt-2 text-gray-600">Welcome back! Here's what's happening today.</p>
+        </div>
+        <div className="card">
+          <div className="text-center py-8">
+            <p className="text-red-600">{error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700"
+            >
+              Retry
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       {/* Page Header */}
@@ -70,7 +133,7 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((stat) => {
           const Icon = stat.icon;
           return (
@@ -79,21 +142,6 @@ const Dashboard = () => {
                 <div className="flex-1">
                   <p className="text-sm font-medium text-gray-600">{stat.name}</p>
                   <p className="mt-2 text-3xl font-bold text-gray-900">{stat.value}</p>
-                  <div className="mt-2 flex items-center">
-                    {stat.changeType === 'increase' ? (
-                      <ArrowUpIcon className="h-4 w-4 text-green-500" />
-                    ) : (
-                      <ArrowDownIcon className="h-4 w-4 text-red-500" />
-                    )}
-                    <span
-                      className={`ml-1 text-sm font-medium ${
-                        stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
-                      }`}
-                    >
-                      {stat.change}
-                    </span>
-                    <span className="ml-1 text-sm text-gray-500">vs last month</span>
-                  </div>
                 </div>
                 <div className={`${stat.color} p-3 rounded-lg`}>
                   <Icon className="h-6 w-6 text-white" />
@@ -102,64 +150,6 @@ const Dashboard = () => {
             </div>
           );
         })}
-      </div>
-
-      {/* Charts and Activities */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Chart Placeholder */}
-        <div className="lg:col-span-2 card">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Revenue Overview</h2>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
-            <div className="text-center">
-              <ChartBarIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-              <p className="text-gray-500">Chart will be displayed here</p>
-              <p className="text-sm text-gray-400 mt-1">Integrate your charting library</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent Activities */}
-        <div className="card">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">Recent Activities</h2>
-          <div className="space-y-4">
-            {recentActivities.map((activity) => (
-              <div key={activity.id} className="flex items-start gap-3 pb-4 border-b border-gray-200 last:border-0">
-                <div className="h-10 w-10 rounded-full bg-primary-100 flex items-center justify-center flex-shrink-0">
-                  <span className="text-primary-600 font-medium text-sm">
-                    {activity.user[0]}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-gray-900">{activity.action}</p>
-                  <p className="text-xs text-gray-500 mt-1">{activity.user}</p>
-                  <p className="text-xs text-gray-400 mt-1">{activity.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="card">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-left">
-            <UsersIcon className="h-6 w-6 text-gray-400 mb-2" />
-            <p className="font-medium text-gray-900">Add New User</p>
-            <p className="text-sm text-gray-500 mt-1">Create a new user account</p>
-          </button>
-          <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-left">
-            <ShoppingBagIcon className="h-6 w-6 text-gray-400 mb-2" />
-            <p className="font-medium text-gray-900">Add Product</p>
-            <p className="text-sm text-gray-500 mt-1">Add a new product to catalog</p>
-          </button>
-          <button className="p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-primary-500 hover:bg-primary-50 transition-colors text-left">
-            <ChartBarIcon className="h-6 w-6 text-gray-400 mb-2" />
-            <p className="font-medium text-gray-900">View Reports</p>
-            <p className="text-sm text-gray-500 mt-1">Generate detailed reports</p>
-          </button>
-        </div>
       </div>
     </div>
   );
